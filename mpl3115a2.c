@@ -55,23 +55,31 @@ int MPL3115A2_Read_Alt()
 {
 	int a = 0;
 	if (inited == 1) {
-/*
-		int a = MPL3115A2_READ_REGISTER(0x01);
+		a = MPL3115A2_READ_REGISTER(0x01);
 		a <<= 8;
 		int b = MPL3115A2_READ_REGISTER(0x02);
 		a = a + b;
 		a <<= 8;
 		int c = MPL3115A2_READ_REGISTER(0x03);
 		a = a + c;
-*/
-	a = (((MPL3115A2_READ_REGISTER(0x01) << 8) + MPL3115A2_READ_REGISTER(0x02)) << 8) + MPL3115A2_READ_REGISTER(0x03);
 	}
 	return a;
 }
 
 void MPL3115A2_Init_Bar()
 {
-	
+	bcm2835_i2c_begin();
+	bcm2835_i2c_setClockDivider(0x9c4);
+	uint8_t c = MPL3115A2_READ_REGISTER(12);
+	if (c == 0xc4) {
+		inited = 1;
+		MPL3115A2_WRITE_REGISTER(0x26, 0x38);
+		MPL3115A2_WRITE_REGISTER(0x27, 0x00);
+		MPL3115A2_WRITE_REGISTER(0x28, 0x11);
+		MPL3115A2_WRITE_REGISTER(0x29, 0x00);
+		MPL3115A2_WRITE_REGISTER(0x2a, 0x00);
+		MPL3115A2_WRITE_REGISTER(0x13, 0x07);
+	}
 }
 
 int MPL3115A2_Read_Temp() {

@@ -25,7 +25,7 @@ sensors:
 
 # Using with Raspberry Pi Version 1.0
 
-  * `bcm2835.c` needs to be compiled with `-DI2C\_V1`.
+  * `bcm2835.c` needs to be compiled with `-DI2C_V1`.
   * Either edit `bcm2835.c` or add the flags in `Makefile`.
 
 # Background

@@ -23,6 +23,11 @@ sensors:
   2. Copy the bcm2835.c source file into the directory with this library
   3. Run `make sensor.so`.
 
+# Using with Raspberry Pi Version 1.0
+
+  * `bcm2835.c` needs to be compiled with `-DI2C\_V1`.
+  * Either edit `bcm2835.c` or add the flags in `Makefile`.
+
 # Background
 
 This is a reverse engineed binary-compatible version of `sensor.so` originally
@@ -35,6 +40,10 @@ page](http://git.oschina.net/embest/rpi_sensor_board.git).
 The sensor.so file is a binary blob, based on the
 [bcm2835](http://www.airspayce.com/mikem/bcm2835/), which is GPL licensed. So
 the binary blob is in full GPL violation.
+
+The original `sensor.so` is compiler for Raspberry V2.0 and does not work with
+V1.0 boards. This requires a compile-time define to be set when compiling the
+bcm2835 library. This can done in `bcm2835.c` or in my Makefile.
 
 I disassembled the `sensor.so` and reimplemented the function in C, with
 practially exact result at the assembly level when compiled. I compare the

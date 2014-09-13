@@ -30,18 +30,18 @@ void MPL3115A2_Standby()
 	MPL3115A2_WRITE_REGISTER(0x26, v);
 }
 
-uint8_t inited = 0;
+uint8_t MPL3115A2_Initialized = 0;
 
 void MPL3115A2_Init_Alt()
 {
-	inited = 0;
+	MPL3115A2_Initialized = 0;
 	uint32_t b = 0x000009c4;
 	bcm2835_i2c_begin();
 	bcm2835_i2c_setClockDivider(b);
 	uint32_t c = MPL3115A2_READ_REGISTER(12);
 	if (c == 0xc4)
 	{
-		inited = 1;
+		MPL3115A2_Initialized = 1;
 		MPL3115A2_WRITE_REGISTER(0x26, 0xb8);
 		MPL3115A2_WRITE_REGISTER(0x27, 0x00);
 		MPL3115A2_WRITE_REGISTER(0x28, 0x17);
@@ -54,7 +54,7 @@ void MPL3115A2_Init_Alt()
 int MPL3115A2_Read_Alt()
 {
 	int a = 0;
-	if (inited == 1) {
+	if (MPL3115A2_Initialized == 1) {
 		a = MPL3115A2_READ_REGISTER(0x01);
 		a <<= 8;
 		int b = MPL3115A2_READ_REGISTER(0x02);
@@ -72,7 +72,7 @@ void MPL3115A2_Init_Bar()
 	bcm2835_i2c_setClockDivider(0x9c4);
 	uint8_t c = MPL3115A2_READ_REGISTER(12);
 	if (c == 0xc4) {
-		inited = 1;
+		MPL3115A2_Initialized = 1;
 		MPL3115A2_WRITE_REGISTER(0x26, 0x38);
 		MPL3115A2_WRITE_REGISTER(0x27, 0x00);
 		MPL3115A2_WRITE_REGISTER(0x28, 0x11);
@@ -84,7 +84,7 @@ void MPL3115A2_Init_Bar()
 
 int MPL3115A2_Read_Temp() {
 	int a = 0;
-	if (inited == 1) {
+	if (MPL3115A2_Initialized == 1) {
 		a = (MPL3115A2_READ_REGISTER(0x04) << 8) + MPL3115A2_READ_REGISTER(0x05);
 	}
 	return a;

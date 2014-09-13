@@ -1,4 +1,3 @@
-struct p { int16_t x, y, z; };
 /* mag3110.c */
 int MAG3110_WRITE_REGISTER(char reg, char val);
 char MAG3110_READ_REGISTER(char reg);
